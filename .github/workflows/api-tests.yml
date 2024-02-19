@@ -1,56 +1,48 @@
-name: Films API Tests
+# This is a basic workflow to help you get started with Actions
 
+name: CI/CD
+
+# запуск CI/CD при пуш в ветку feature и пул-реквесте в ветки main и dev
 on:
+  push:
+    branches:
+      - feature
   pull_request:
+    branches:
+      - main
+      - dev
 
+# Работа, которая будет выполняться: сборка (build) и тестирование проекта. Будут запущены на виртуальной машине linux (ubuntu)
 jobs:
-  build:
-
+  build-and-checkstyle-and-testing:
     runs-on: ubuntu-latest
 
+    # Шаги, в которых описывается, что для проверки будут:
+    # 1. скачан репозиторий (действие actions/checkout@v3)
+    # 2. установлена java (действие actions/setup-java@v3) 11-ой версии
+    # 3. проведена проверка стилистики кода (действие mvn checkstyle:check)
+    # 4. осуществлена сборка проекта вместе с шагом тестирования (действие mvn clean install)
+    # 5. пауза в 3 секунды
+    # 6. прогнаны postman тесты (действие matt-ball/newman-action@master)
     steps:
-      - name: Checkout target repo
+      - name: Клонирование кода репозитория
         uses: actions/checkout@v3
-
-      - name: Set up JDK 11
+      - name: Установка java 11-ой версии с maven
         uses: actions/setup-java@v3
         with:
           java-version: '11'
           distribution: 'temurin'
           cache: maven
+      - name: Проверка стилистики (checkstyle)
+        run: mvn checkstyle:check
+      - name: Сборка проекта и тестирование
+        run: mvn clean install
 
-      - name: Build application
-        run: mvn package
+      - name: Пауза 3с
+        run: sleep 3s
+        shell: bash
 
-      - name: Install Node
-        uses: actions/setup-node@v1
+      - name: Postman тестирование
+        uses: matt-ball/newman-action@master
         with:
-          node-version: '12.x'
-
-      - name: Install newman
-        run: |
-          npm install -g newman
-
-      - name: Install helper script
-        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y wget &&
-          wget --no-check-certificate -P /tmp/ https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh &&
-          chmod a+x /tmp/wait-for-it.sh
-
-      - name: Checkout tests
-        uses: actions/checkout@v3
-        with:
-          repository: 'yandex-praktikum/java-filmorate'
-          ref: ${{ github.event.pull_request.head.ref }}
-          path: tests
-
-      - name: Run Application
-        run: nohup mvn spring-boot:run &
-
-      - name: Waiting for application is up
-        run: |
-          /tmp/wait-for-it.sh -t 60 localhost:8080
-          echo "Application is up"
-
-      - name: Run POSTMAN tests
-        run: |
-          newman run ./tests/postman/sprint.json -r cli
+          collection: ./postman/epa-backend-api-test.json
