@@ -39,9 +39,17 @@ jobs:
       - name: Пауза 3с
         run: sleep 3s
         shell: bash
+      - name: Start application
+        run: mvn spring-boot:run -Dserver.port=8080 &
 
-      - name: Postman тестирование
-        uses: matt-ball/newman-action@master
-        with:
-          collection: ./postman/filmorate.json
-          envVar: '[{ "key": "baseUrl", "value": "http://localhost:8080" }]'
+      - name: Run Postman tests
+        run: npx newman run your_postman_collection.json --env-var baseUrl=http://localhost:8080
+
+      - name: Stop application
+        run: mvn spring-boot:stop
+      
+      #- name: Postman тестирование
+      #  uses: matt-ball/newman-action@master
+      #  with:
+      #    collection: ./postman/filmorate.json
+      #    envVar: '[{ "key": "baseUrl", "value": "http://localhost:8080" }]'
