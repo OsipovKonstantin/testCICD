@@ -11,16 +11,16 @@
 - yml файл с проверкой стилей и запуском тестов (не postman) https://github.com/software-sales-and-installations/softplat-back/actions/runs/7331159512/workflow
 - yml файл с проверкой в том числе postman тестов https://github.com/comparison-of-banking-products/cobp-backend/actions/runs/7913888561/workflow
   
-
+#
 - https://github.com/insurance-product-comparisons/backend/actions/runs/7885577496/workflow
 - https://github.com/insurance-product-comparisons/backend/actions/runs/7887676522/workflow
 - https://github.com/insurance-product-comparisons/backend/blob/main/.github/workflows/tests.yml
   
-
+#
 - https://github.com/comparison-of-banking-products/cobp-backend/blob/main/.github/workflows/build-and-push-image-manually.yml
 - https://github.com/comparison-of-banking-products/cobp-backend/blob/main/.github/workflows/build-and-test-dev-on-pull-request.yml
 - https://github.com/comparison-of-banking-products/cobp-backend/blob/main/.github/workflows/scp-and-deploy-compose-manually.yml
   
-
+#
 - https://github.com/store-electronics-and-household/store-backend/actions/runs/7319771485/workflow
 - https://github.com/store-electronics-and-household/store-backend/actions/runs/7319771503/workflow
