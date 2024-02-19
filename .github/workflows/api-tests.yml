@@ -4,8 +4,6 @@ name: CI/CD
 on:
   push:
     branches:
-      - main
-      - dev
       - feature
   pull_request:
     branches:
@@ -17,13 +15,7 @@ jobs:
   build-and-checkstyle-and-testing:
     runs-on: ubuntu-latest
 
-    # Шаги, в которых описывается, что для проверки будут:
-    # 1. скачан репозиторий (действие actions/checkout@v3)
-    # 2. установлена java (действие actions/setup-java@v3) 11-ой версии
-    # 3. проведена проверка стилистики кода (действие mvn checkstyle:check)
-    # 4. осуществлена сборка проекта вместе с шагом тестирования (действие mvn clean install)
-    # 5. пауза в 3 секунды
-    # 6. прогнаны postman тесты (действие matt-ball/newman-action@master)
+    # Шаги, которые будут выполнены
     steps:
       - name: Клонирование кода репозитория
         uses: actions/checkout@v3
@@ -33,14 +25,12 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
           cache: maven
+          
       - name: Проверка стилистики (checkstyle)
         run: mvn checkstyle:check -Dcheckstyle.config.location=checkstyle.xml
+        
       - name: Сборка проекта и тестирование
         run: mvn clean install
-
-      - name: Пауза 3с
-        run: sleep 3s
-        shell: bash
         
       - name: Запуск приложения на порту 8080
         run: mvn spring-boot:run -Dserver.port=8080 &
