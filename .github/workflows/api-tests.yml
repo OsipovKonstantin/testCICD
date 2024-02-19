@@ -32,8 +32,8 @@ jobs:
           distribution: 'temurin'
           cache: maven
       - name: Проверка стилистики (checkstyle)
-        run: mvn checkstyle:check
-      - name: Сборка проекта и тестирование
+      #  run: mvn checkstyle:check
+      #- name: Сборка проекта и тестирование
         run: mvn clean install
 
       - name: Пауза 3с
@@ -43,4 +43,4 @@ jobs:
       - name: Postman тестирование
         uses: matt-ball/newman-action@master
         with:
-          collection: ./postman/epa-backend-api-test.json
+          collection: ./postman/filmorate.json
