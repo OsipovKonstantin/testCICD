@@ -40,7 +40,10 @@ jobs:
         run: sleep 3s
         shell: bash
 
-      #- name: Postman тестирование
-      #  uses: matt-ball/newman-action@master
-      #  with:
-      #    collection: ./postman/filmorate.json
+      - name: Скачиваем newman для запуска Postman тестов
+        run: |
+          nmp install -g newmap
+      - name: Postman тестирование
+        uses: matt-ball/newman-action@master
+        with:
+          collection: ./postman/filmorate.json
