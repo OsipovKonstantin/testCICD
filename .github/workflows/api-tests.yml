@@ -32,24 +32,19 @@ jobs:
           distribution: 'temurin'
           cache: maven
       - name: Проверка стилистики (checkstyle)
-      #  run: mvn checkstyle:check
-      #- name: Сборка проекта и тестирование
+        run: mvn checkstyle:check
+      - name: Сборка проекта и тестирование
         run: mvn clean install
 
       - name: Пауза 3с
         run: sleep 3s
         shell: bash
-      - name: Start application
+        
+      - name: Запуск приложения на порту 8080
         run: mvn spring-boot:run -Dserver.port=8080 &
 
-      - name: Run Postman tests
+      - name: Проход Postman тестов с baseUrl http://localhost:8080
         run: npx newman run ./postman/filmorate.json --env-var baseUrl=http://localhost:8080
 
-      - name: Stop application
+      - name: Остановка приложения
         run: mvn spring-boot:stop
-      
-      #- name: Postman тестирование
-      #  uses: matt-ball/newman-action@master
-      #  with:
-      #    collection: ./postman/filmorate.json
-      #    envVar: '[{ "key": "baseUrl", "value": "http://localhost:8080" }]'
