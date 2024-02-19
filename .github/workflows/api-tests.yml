@@ -1,6 +1,6 @@
 name: CI/CD
 
-# запуск CI/CD при пуш в ветку feature и пул-реквесте в ветки main и dev
+# запуск CI/CD при пуш в ветку feature и пул-реквесте в ветки main и dev 
 on:
   push:
     branches:
