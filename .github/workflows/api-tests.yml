@@ -32,7 +32,7 @@ jobs:
           distribution: 'temurin'
           cache: maven
       - name: Проверка стилистики (checkstyle)
-        run: mvn checkstyle:check -Dcheckstyle.config.location=checkstyle.xml
+        run: mvn checkstyle:check -Dcheckstyle.config.location=./checkstyle.xml
       - name: Сборка проекта и тестирование
         run: mvn clean install
 
