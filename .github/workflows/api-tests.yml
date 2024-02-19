@@ -43,5 +43,5 @@ jobs:
       - name: Postman тестирование
         uses: matt-ball/newman-action@master
         with:
-          collection: postman/filmorate.json
+          collection: ./postman/filmorate.json
           envVar: '[{ "key": "baseUrl", "value": "http://localhost:8080" }]'
