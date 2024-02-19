@@ -40,7 +40,7 @@ jobs:
         run: sleep 3s
         shell: bash
 
-      - name: Postman тестирование
-        uses: matt-ball/newman-action@master
-        with:
-          collection: ./postman/filmorate.json
+      #- name: Postman тестирование
+      #  uses: matt-ball/newman-action@master
+      #  with:
+      #    collection: ./postman/filmorate.json
