@@ -40,7 +40,6 @@ jobs:
         run: sleep 3s
         shell: bash
 
-      - name: Скачиваем newman для запуска Postman тестов
       - name: Postman тестирование
         uses: matt-ball/newman-action@master
         with:
