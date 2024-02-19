@@ -41,9 +41,7 @@ jobs:
         shell: bash
 
       - name: Скачиваем newman для запуска Postman тестов
-        run: |
-          nmp install -g newmap
       - name: Postman тестирование
         uses: matt-ball/newman-action@master
         with:
-          collection: ./postman/filmorate.json
+          collection: postman/filmorate.json
