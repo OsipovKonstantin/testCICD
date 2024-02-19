@@ -43,7 +43,7 @@ jobs:
         run: mvn spring-boot:run -Dserver.port=8080 &
 
       - name: Run Postman tests
-        run: npx newman run your_postman_collection.json --env-var baseUrl=http://localhost:8080
+        run: npx newman run ./postman/filmorate.json --env-var baseUrl=http://localhost:8080
 
       - name: Stop application
         run: mvn spring-boot:stop
