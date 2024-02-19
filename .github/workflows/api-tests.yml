@@ -1,5 +1,3 @@
-# This is a basic workflow to help you get started with Actions
-
 name: CI/CD
 
 # запуск CI/CD при пуш в ветку feature и пул-реквесте в ветки main и dev
@@ -34,15 +32,19 @@ jobs:
           distribution: 'temurin'
           cache: maven
       - name: Проверка стилистики (checkstyle)
-        run: mvn checkstyle:check
+        run: mvn checkstyle:check -Dcheckstyle.config.location=checkstyle.xml
       - name: Сборка проекта и тестирование
         run: mvn clean install
 
       - name: Пауза 3с
         run: sleep 3s
         shell: bash
+        
+      - name: Запуск приложения на порту 8080
+        run: mvn spring-boot:run -Dserver.port=8080 &
 
-      - name: Postman тестирование
-        uses: matt-ball/newman-action@master
-        with:
-          collection: ./postman/epa-backend-api-test.json
+      - name: Проход Postman тестов с baseUrl http://localhost:8080
+        run: npx newman run ./postman/filmorate.json --env-var baseUrl=http://localhost:8080
+
+      - name: Остановка приложения
+        run: mvn spring-boot:stop
