@@ -15,6 +15,18 @@ jobs:
   build-and-checkstyle-and-testing:
     runs-on: ubuntu-latest
 
+    # Подключение базы данных PostgreSQL, используя контейнер в github action
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_DB: filmorate
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: iamroot
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
     # Шаги, в которых описывается, что для проверки будут:
     # 1. скачан репозиторий (действие actions/checkout@v3)
     # 2. установлена java (действие actions/setup-java@v3) 11-ой версии
