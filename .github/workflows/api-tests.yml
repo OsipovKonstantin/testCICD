@@ -20,7 +20,7 @@ jobs:
       postgres:
         image: postgres:latest
         env:
-          POSTGRES_DB: $(grep '^spring.datasource.url' application.properties | cut -d'=' -f2 | rev | cut -d'/' -f1 | rev)
+          POSTGRES_DB: $(grep 'spring.datasource.url' application.properties | cut -d'=' -f2 | rev | cut -d'/' -f1 | rev)
           POSTGRES_USER: $(grep "spring.datasource.username" application.properties | awk -F "=" '{print $2}' | tr -d ' ')
           POSTGRES_PASSWORD: $(grep "spring.datasource.password" application.properties | awk -F "=" '{print $2}' | tr -d ' ')
         ports:
