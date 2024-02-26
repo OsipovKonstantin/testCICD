@@ -46,7 +46,7 @@ jobs:
           export POSTGRES_DB=$(grep "spring.datasource.url" application.properties | cut -d'=' -f2 | rev | cut -d'/' -f1 | rev)
           export POSTGRES_USER=$(grep "spring.datasource.username" application.properties | awk -F "=" '{print $2}' | tr -d ' ')
           export POSTGRES_PASSWORD=$(grep "spring.datasource.password" application.properties | awk -F "=" '{print $2}' | tr -d ' ')
-          docker run --name postgres -e POSTGRES_DB=POSTGRES_DB -e POSTGRES_USER=POSTGRES_USER -e POSTGRES_PASSWORD=POSTGRES_PASSWORD -p 6541:5432 -d postgres:latest
+          docker run --name postgres -e POSTGRES_DB=POSTGRES_DB -e POSTGRES_USER=POSTGRES_USER -e POSTGRES_PASSWORD=POSTGRES_PASSWORD -p 5432:5432 -d postgres:latest
 
       - name: Сборка проекта и тестирование
         run: mvn clean install
