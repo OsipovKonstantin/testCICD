@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS friends
 
 CREATE TABLE IF NOT EXISTS ratings
 (
-    rating_id INT PRIMARY KEY,
+    rating_id SMALLINT PRIMARY KEY,
     name VARCHAR(10) UNIQUE
 );
 

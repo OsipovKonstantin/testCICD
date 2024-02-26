@@ -30,12 +30,12 @@ public class LikesDbStorage implements LikesStorage {
 
     @Override
     public List<Long> loadPopularFilmsId(int count) {
-        String sql = "SELECT * FROM films f " +
+        String sql = "SELECT f.film_id as f_id FROM films f " +
                 "LEFT JOIN film_likes fl ON f.film_id = fl.film_id " +
                 "GROUP BY f.film_id " +
                 "ORDER BY COUNT(fl.user_id) DESC " +
                 "LIMIT ?";
-        return jdbcTemplate.query(sql, (rs, rowNum) -> rs.getLong("films.film_id"), count);
+        return jdbcTemplate.query(sql, (rs, rowNum) -> rs.getLong("f_id"), count);
     }
 
     @Override

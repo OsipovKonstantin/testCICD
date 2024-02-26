@@ -49,30 +49,41 @@ public class FilmDbStorage implements FilmStorage {
 
     @Override
     public List<Film> loadFilms() {
-        String sql = "SELECT * FROM films AS f LEFT JOIN ratings AS r ON f.rating_id = r.rating_id";
+        String sql = "SELECT f.name as f_name, " +
+                "f.description as f_description, " +
+                "f.release_date as f_release_date, " +
+                "f.duration as f_duration, " +
+                "r.name as r_name, " +
+                "f.film_id as f_id  " +
+                "FROM films AS f LEFT JOIN ratings AS r ON f.rating_id = r.rating_id ORDER BY f.film_id ASC";
         return jdbcTemplate.query(sql, (rs, rowNum) ->
                 Film.builder()
-                        .id(rs.getLong("films.film_id"))
-                        .name(rs.getString("films.name"))
-                        .description(rs.getString("films.description"))
-                        .releaseDate(rs.getDate("films.release_date").toLocalDate())
-                        .duration(rs.getLong("films.duration"))
-                        .mpa(Mpa.valueOf(rs.getString("ratings.name")))
+                        .id(rs.getLong("f_id"))
+                        .name(rs.getString("f_name"))
+                        .description(rs.getString("f_description"))
+                        .releaseDate(rs.getDate("f_release_date").toLocalDate())
+                        .duration(rs.getLong("f_duration"))
+                        .mpa(Mpa.valueOf(rs.getString("r_name")))
                         .build());
     }
 
     @Override
     public Film getFilm(Long id) {
-        String sql = "SELECT * FROM films LEFT JOIN ratings ON films.rating_id = ratings.rating_id WHERE film_id = ?";
+        String sql = "SELECT f.film_id as f_id, " +
+                "f.name as f_name, " +
+                "f.description as f_description, " +
+                "f.release_date as f_release_date, " +
+                "f.duration as f_duration, " +
+                "r.name as r_name FROM films as f LEFT JOIN ratings as r ON f.rating_id = r.rating_id WHERE film_id = ?";
         try {
             return jdbcTemplate.query(sql, (rs, numRow) ->
                     Film.builder()
-                            .id(rs.getLong("film_id"))
-                            .name(rs.getString("name"))
-                            .description(rs.getString("description"))
-                            .releaseDate(rs.getDate("release_date").toLocalDate())
-                            .duration(rs.getLong("duration"))
-                            .mpa(Mpa.valueOf(rs.getString("ratings.name")))
+                            .id(rs.getLong("f_id"))
+                            .name(rs.getString("f_name"))
+                            .description(rs.getString("f_description"))
+                            .releaseDate(rs.getDate("f_release_date").toLocalDate())
+                            .duration(rs.getLong("f_duration"))
+                            .mpa(Mpa.valueOf(rs.getString("r_name")))
                             .build(), id).get(0);
         } catch (IndexOutOfBoundsException e) {
             throw new FilmNotFoundException(String.format("Фильма с id %d не существует.", id));
