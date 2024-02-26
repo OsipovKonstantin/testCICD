@@ -36,7 +36,7 @@ jobs:
 
       - name: Load application properties
         run: |
-          cat scr/main/resources/application.properties >> application.properties
+          cat src/main/resources/application.properties >> application.properties
       - name: Запускаем БД postgreSQL, используя докер-контейнер
         env:
           POSTGRES_DB: ${{ env.POSTGRES_DB }}
