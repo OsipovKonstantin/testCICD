@@ -24,7 +24,7 @@ jobs:
           POSTGRES_USER: $(grep "spring.datasource.username" application.properties | awk -F "=" '{print $2}' | tr -d ' ')
           POSTGRES_PASSWORD: $(grep "spring.datasource.password" application.properties | awk -F "=" '{print $2}' | tr -d ' ')
         ports:
-          - 6542:5432
+          - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     # Шаги, в которых описывается, что для проверки будут:
