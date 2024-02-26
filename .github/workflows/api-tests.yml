@@ -20,11 +20,11 @@ jobs:
       postgres:
         image: postgres:latest
         env:
-          POSTGRES_DB: filmorate
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: iamroot
+          POSTGRES_DB: $(grep 'spring.datasource.url' application.properties | grep -o '[^/]*$')
+          POSTGRES_USER: $(grep "spring.datasource.username" application.properties | awk -F "=" '{print $2}' | tr -d ' ')
+          POSTGRES_PASSWORD: $(grep "spring.datasource.password" application.properties | awk -F "=" '{print $2}' | tr -d ' ')
         ports:
-          - 5432:5432
+          - 6542:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     # Шаги, в которых описывается, что для проверки будут:
@@ -51,7 +51,7 @@ jobs:
       - name: Пауза 3с
         run: sleep 3s
         shell: bash
-        
+
       - name: Запуск приложения на порту 8080
         run: mvn spring-boot:run -Dserver.port=8080 &
 
