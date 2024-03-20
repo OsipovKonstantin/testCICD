@@ -55,8 +55,16 @@ jobs:
         run: sleep 3s
         shell: bash
 
-      - name: Запуск приложения на порту 8080
-        run: mvn spring-boot:run -Dserver.port=8080 &
+      - name: Запуск Spring Boot на порту 8080
+        run: |
+          mvn spring-boot:run -Dserver.port=8080 &
+          app_pid=$!
+          sleep 10
+          if ps -p $app_pid > /dev/null; then
+            exit 0
+          else
+            exit 1
+          fi
 
       - name: Проход Postman тестов с baseUrl http://localhost:8080
         run: npx newman run ./postman/filmorate*.json --env-var baseUrl=http://localhost:8080
