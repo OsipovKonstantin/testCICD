@@ -59,7 +59,7 @@ jobs:
         run: mvn spring-boot:run -Dserver.port=8080 &
 
       - name: Проход Postman тестов с baseUrl http://localhost:8080
-        run: npx newman run ./postman/filmorate.json --env-var baseUrl=http://localhost:8080
+        run: npx newman run ./postman/filmorate*.json --env-var baseUrl=http://localhost:8080
 
       - name: Остановка приложения
         run: mvn spring-boot:stop
